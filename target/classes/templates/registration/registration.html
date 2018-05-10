@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" 
+    	  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    	  crossorigin="anonymous">
+	<title>Register</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  		<a class="navbar-brand" href="#">PIOS</a>
+		<button class="navbar-toggler" 
+				type="button" 
+				data-toggle="collapse" 
+				data-target="#navbarSupportedContent" 
+				aria-controls="navbarSupportedContent" 
+				aria-expanded="false" 
+				aria-label="Toggle navigation">
+	    	<span class="navbar-toggler-icon"></span>
+	  	</button>
+
+	  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    	<ul class="navbar-nav ml-auto">
+			    <li class="navbar-item">
+			      	<a th:href="@{/login}" class="nav-link">Prijava</a>
+			   	</li>
+			</ul>
+	  	</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="card col-md-6 offset-md-3"
+			 	 style="margin-top: 50px">
+				<div class="card-body">
+					<h2 class="card-title">Registracija</h2>
+					<div class="card-text">
+						<div>
+							<form name='f' 
+								  th:action="@{/registracija}"
+								  th:object="${korisnikFormModel}" 
+								  method="POST">
+								<div class="form-group">
+									<label for="ime">Ime:</label>
+									<input type="text"
+										   th:field="*{ime}"
+										   th:errorclass="border-danger"
+										   name="ime"
+										   id="ime"
+										   autofocus
+										   class="form-control border" />
+								   <small th:if="${#fields.hasErrors('ime')}" 
+								   		  th:errors="*{ime}" 
+								   		  class="form-text text-danger">
+								   		  Greška.
+						   		  </small>
+								</div>
+								<div class="form-group">
+									<label for="prezime">Prezime:</label>
+									<input type="text"
+										   th:field="*{prezime}"
+										   th:errorclass="border-danger"
+										   name="prezime" 
+										   id="prezime"
+										   class="form-control border" />
+								   	<small th:if="${#fields.hasErrors('prezime')}" 
+								   		   th:errors="*{prezime}" 
+								   		   class="form-text text-danger">
+								   		   Greška.
+						   		  	</small>
+								</div>
+								<div class="form-group">
+									<label for="opis">Opis:</label>
+									<textarea name="opis"
+											  th:field="*{opis}" 
+										   	  id="opis"
+										   	  class="form-control">
+								   </textarea>
+								</div>
+								<div class="form-group">
+									<label for="korisnickoIme">Korisničko ime:</label>
+									<input type="text" 
+										   th:field="*{korisnickoIme}"
+										   th:errorclass="border-danger"
+										   name="korisnickoIme" 
+										   id="korisnickoIme"
+										   class="form-control border" />
+								   	<small th:if="${#fields.hasErrors('korisnickoIme')}" 
+								   		   th:errors="*{korisnickoIme}" 
+								   		   class="form-text text-danger">
+								   		   Greška.
+						   		  	</small>
+								</div>
+								<div class="form-group">
+									<label for="lozinka">Lozinka:</label>
+									<input type="password"
+										   th:field="*{lozinka}"
+										   th:errorclass="border-danger"
+										   name="lozinka" 
+										   id="lozinka"
+										   class="form-control border" />
+								   	<small th:if="${#fields.hasErrors('lozinka')}" 
+								   		   th:errors="*{lozinka}" 
+								   		   class="form-text text-danger">
+								   		   Greška.
+						   		  	</small>
+								</div>
+								<div class="form-group">
+									<label for="mjesto">Mjesto:</label>
+									<input type="text" 
+										   th:field="*{mjesto}"
+										   name="mjesto" 
+										   id="mjesto"
+										   class="form-control" />
+								</div>
+								<div class="form-group">
+									<label for="godine">Godine:</label>
+									<input type="number" 
+										   th:field="*{godine}"
+										   th:errorclass="border-danger"
+										   name="godine" 
+										   id="godine"
+										   class="form-control border"
+										   min="18" />
+								   	<small th:if="${#fields.hasErrors('godine')}" 
+								   		   th:errors="*{godine}" 
+								   		   class="form-text text-danger">
+								   		   Greška.
+						   		  	</small>
+								</div>
+								<div class="form-group">
+									<label for="spol">Spol:</label>
+									<select class="custom-select"
+											th:field="*{spol}"
+											id="spol"
+											name="spol">
+									  	<option value="musko">Muško</option>
+									  	<option value="zensko">Žensko</option>
+									  	<option value="oboje">Oboje</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="trazeniSpol">Tražim:</label>
+									<select class="custom-select"
+											th:field="*{trazeniSpol}"
+											id="trazeniSpol"
+											name="trazeniSpol">
+									  	<option value="musko">Muško</option>
+									  	<option value="zensko">Žensko</option>
+									  	<option value="oboje">Oboje</option>
+									</select>
+								</div>
+								<div class="text-right"
+									 style="margin-top: 20px">
+									<input name="submit" 
+										   type="submit"
+										   class="btn btn-primary" 
+										   value="Pošalji" />
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+		    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+		    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+    		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+    		crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+    		crossorigin="anonymous"></script>
+</body>
+</html>

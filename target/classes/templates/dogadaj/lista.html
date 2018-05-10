@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" 
+    	  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    	  crossorigin="anonymous">
+	<title>Događaji</title>
+</head>
+<body>
+	<div th:replace="fragments/navigation :: navigation('dogadaji')"></div>
+
+	<div class="container">
+		<a class="btn btn-primary" 
+				th:href="@{/noviDogadaj}"
+				style="margin-top: 20px">
+				Novi događaj
+		</a>
+	
+		<div class="card-columns">
+			<div th:each="dogadaj : ${dogadaji}" 
+				 class="card" 
+				 th:classappend="${#lists.contains(dogadaj.korisnici, korisnik)} ? 'bg-warning text-white'" 
+				 style="margin-top: 20px">
+				<div class="card-body">
+			    	<h5 class="card-title" th:text="${dogadaj.naziv}"></h5>
+			      	<p class="card-text" th:text="${dogadaj.opis}"></p>
+				    
+				    <a th:href="@{/detalji(id=${dogadaj.id})}" class="card-link">Više</a>
+				    <form style="display: inline-block" method="post" th:action="@{/prijaviDolazak}">
+				    	<input type="hidden" th:value="${dogadaj.id}" name="id">
+				    	<button th:if="${not #lists.contains(dogadaj.korisnici, korisnik)}" 
+					    		class="btn btn-primary card-link">
+					    		Dolazim</button>
+		    		</form>
+		    		<form style="display: inline-block" method="post" th:action="@{/odjaviDolazak}">
+				    	<input type="hidden" th:value="${dogadaj.id}" name="id">
+					    <button th:if="${#lists.contains(dogadaj.korisnici, korisnik)}" 
+					    		class="btn btn-primary card-link">
+					    		Ne dolazim</button>
+		    		</form>
+			    </div>
+			    <div class="card-footer">
+			      	<small class="text-muted" th:text="${'Lokacija: ' + dogadaj.mjesto}"></small><br>
+			      	<small class="text-muted" th:text="${'Vrijeme: ' + #dates.format(dogadaj.datum, 'dd/MMM/yyyy HH:mm')}"></small>
+			    </div>
+			</div>
+      	</div>
+	</div>
+
+	<script
+	  src="https://code.jquery.com/jquery-3.3.1.js"
+	  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+    		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+    		crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+    		crossorigin="anonymous"></script>
+    		
+   	<script type="text/javascript">
+   		function prijaviDolazak(id, element) {
+   			$.ajax({
+   			    type: "POST",
+   			    url: "/prijaviDolazak",
+   			    data: JSON.stringify({ id: id }),
+   			    contentType: "application/json; charset=utf-8",
+   			    dataType: "json",
+   			    success: function(data) {
+   			    	$(element).closest('.card').addClass("bg-warning");
+   			    	$(element).closest('.card').addClass("text-white");
+   			    	$(element).css({'display': 'none'});
+   			    	$(element).next().css({'display': 'inline-block'});
+   			    },
+   			    failure: function(errMsg) {
+   			        console.log(errorMsg);
+   			    }
+   			});
+   		};
+   		
+   		function odjaviDolazak(id, element) {
+   			$.ajax({
+   			    type: "POST",
+   			    url: "/odjaviDolazak",
+   			    data: JSON.stringify({ id: id }),
+   			    contentType: "application/json; charset=utf-8",
+   			    dataType: "json",
+   			    success: function(data) {
+   			    	$(element).closest('.card').removeClass("bg-warning");
+   			    	$(element).closest('.card').removeClass("text-white");
+   			    	$(element).css({'display': 'none'});
+   			    	$(element).prev().css({'display': 'inline-block'});
+   			    },
+   			    failure: function(errMsg) {
+   			        console.log(errorMsg);
+   			    }
+   			});
+   		};
+   	</script>
+</body>
+</html>

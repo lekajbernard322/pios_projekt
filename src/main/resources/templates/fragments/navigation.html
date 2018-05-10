@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8"/>
+<title>Navigation fragment</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="navigation(activeItemName)">
+  		<a class="navbar-brand" th:href="@{/profile}">PIOS</a>
+		<button class="navbar-toggler" 
+				type="button" 
+				data-toggle="collapse" 
+				data-target="#navbarSupportedContent" 
+				aria-controls="navbarSupportedContent" 
+				aria-expanded="false" 
+				aria-label="Toggle navigation">
+	    	<span class="navbar-toggler-icon"></span>
+	  	</button>
+
+	  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    	<ul class="navbar-nav mr-auto">
+	      		<li class="nav-item" th:classappend="${activeItemName == 'profil'} ? active">
+	        		<a class="nav-link" th:href="@{/profile}">Profil<span class="sr-only">(current)</span></a>
+	      		</li>
+	      		<li class="nav-item" th:classappend="${activeItemName == 'trazi'} ? active">
+	        		<a class="nav-link" th:href="@{/searchKorisnik}">Traži</a>
+	      		</li>
+	      		<li class="nav-item dropdown" th:classappend="${activeItemName == 'ljudi'} ? active">
+	        		<a class="nav-link dropdown-toggle" 
+	        			href="#" 
+	        			id="navbarDropdown" 
+	        			role="button" 
+	        			data-toggle="dropdown" 
+	        			aria-haspopup="true" 
+	        			aria-expanded="false">
+	          			Ljudi
+	        		</a>
+	        		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          			<a class="dropdown-item" th:href="@{/likedList}">Sviđa</a>
+	          			<a class="dropdown-item" th:href="@{/notLikedList}">Ne sviđa</a>
+	        		</div>
+	      		</li>
+			    <li class="nav-item" th:classappend="${activeItemName == 'dogadaji'} ? active">
+			        <a class="nav-link" th:href="@{/dogadaji}">Događaji</a>
+			    </li>
+			    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${activeItemName == 'admin'} ? active">
+			        <a class="nav-link" th:href="@{/admin/logs}">Administracija</a>
+			    </li>
+	    	</ul>
+	    	<ul class="navbar-nav ml-auto">
+	    		<li class="navbar-item">
+	    			<a class="nav-link">Pozdrav, <span sec:authentication="name">Bob</span></a>
+	    		</li>
+			    <li class="navbar-item">
+			      	<a th:href="@{/logout}" class="nav-link">Odjava</a>
+			   	</li>
+			</ul>
+	  	</div>
+	</nav>
+	
+
+</body>
+</html>

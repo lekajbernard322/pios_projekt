@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" 
+    	  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    	  crossorigin="anonymous">
+	<title>Profile</title>
+</head>
+<body>
+	<div th:replace="fragments/navigation :: navigation('profil')"></div>
+		
+	<main role="main" class="container">
+		<div class="row">
+			<div class="card col-lg-6 offset-lg-3" style="margin-top: 30px">
+			  	<img class="card-img-top" th:src="@{/user-icon1.png}" alt="Profile image">
+			  	<div class="card-body">
+			    	<h5 th:text="${korisnik.korisnickoIme}" class="card-title">Username</h5>
+			    	<h6 th:text="${korisnik.opis}" class="card-subtitle mb-2 text-muted">
+			    		Opis korisnika. Opis korisnika. Opis korisnika. Opis korisnika. Opis korisnika. 
+		    		</h6>
+			    	
+			    	<dl class="row" style="margin-top: 40px">
+					  	<dt class="col-sm-3">
+					  		Ime
+				  		</dt>
+					  	<dd th:text="${korisnik.ime}" class="col-sm-9">
+					  		Test ime
+					  	</dd>
+					
+					  	<dt class="col-sm-3">
+					  		Prezime
+				  		</dt>
+					  	<dd th:text="${korisnik.prezime}" class="col-sm-9">
+					  		Test prezime
+					 	</dd>
+					
+					  	<dt class="col-sm-3">
+					  		Godine
+				  		</dt>
+					  	<dd th:text="${korisnik.godine}" class="col-sm-9">
+					  		23
+				  		</dd>
+				  		
+				  		<dt class="col-sm-3">
+					  		Mjesto
+				  		</dt>
+					  	<dd th:text="${korisnik.mjesto}" class="col-sm-9">
+					  		Zagreb, Hrvatska
+				  		</dd>
+				  		
+				  		<dt class="col-sm-3">
+					  		Spol
+				  		</dt>
+					  	<dd th:text="${korisnik.spol}" class="col-sm-9">
+					  		Muško
+				  		</dd>
+				  		
+				  		<dt class="col-sm-3">
+					  		Traži
+				  		</dt>
+					  	<dd th:text="${korisnik.trazeniSpol}" class="col-sm-9">
+					  		Žensko
+				  		</dd>
+					</dl>
+			    	
+			    	<form method="POST" th:action="@{/uploadImage}"
+					    enctype="multipart/form-data" class="form-inline">
+					     
+					    <div class="form-group">
+					    	<label for="fileUpload">Upload slike:</label>
+					    	<input id="fileUpload" 
+					    		   class="form-control-file btn btn-default" 
+					    		   type="file" 
+					    		   name="file" />
+				    	</div>
+					    <input type="submit"class="btn btn-primary" value="Upload" />
+					
+					</form>
+			  	</div>
+			</div>
+		</div>
+		
+		<div class="row" 
+			 th:each="imageSource : ${korisnik.slikeUrl}"
+			 style="margin-top: 10px">
+			<div class="card col-lg-6 offset-lg-3">
+				<div class="card-image">
+					<img th:src="@{/getImage(id=${korisnik.id}, filename=${imageSource})}"
+						 class="img-fluid"/>
+				</div>
+			</div>
+		</div>
+		
+	</main>
+	
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+		    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+		    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+    		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+    		crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+    		crossorigin="anonymous"></script>
+</body>
+</html>
